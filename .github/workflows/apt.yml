@@ -60,6 +60,14 @@ jobs:
           gpg --batch --yes -u "$KEYID" -abs -o Release.gpg Release
           gpg --batch --yes -u "$KEYID" --clearsign -o InRelease Release
 
+      - name: Write the package list page
+        run: |
+          {
+            echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>apt packages</title><body style="font-family:system-ui;max-width:640px;margin:40px auto;padding:0 16px"><h1>Packages</h1><p>Install instructions: <a href="https://github.com/gypsynature">github.com/gypsynature</a></p><ul>'
+            awk 'BEGIN{RS="";FS="\n"} {p="";v="";d=""; for(i=1;i<=NF;i++){ if($i~/^Package: /)p=substr($i,10); if($i~/^Version: /)v=substr($i,10); if($i~/^Description: /)d=substr($i,14)}; print "<li><b>" p "</b> " v " - " d "</li>"}' site/dists/stable/main/binary-all/Packages
+            echo '</ul></body>'
+          } > site/index.html
+          
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
