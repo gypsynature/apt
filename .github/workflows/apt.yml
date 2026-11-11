@@ -33,17 +33,18 @@ jobs:
 
       - name: Build the apt folder
         run: |
-          mkdir -p site/pool/main site/dists/stable/main/binary-all
+                       mkdir -p site/pool/main site/dists/stable/main/binary-all site/dists/stable/main/binary-amd64 site/dists/stable/main/binary-arm64
           cp incoming/*.deb site/pool/main/ 2>/dev/null || true
           cd site
           dpkg-scanpackages --multiversion pool > dists/stable/main/binary-all/Packages
           gzip -k -9 -f dists/stable/main/binary-all/Packages
+                       for a in amd64 arm64; do cp dists/stable/main/binary-all/Packages* dists/stable/main/binary-$a/; done
           apt-ftparchive \
             -o APT::FTPArchive::Release::Origin=apt \
             -o APT::FTPArchive::Release::Label=apt \
             -o APT::FTPArchive::Release::Suite=stable \
             -o APT::FTPArchive::Release::Codename=stable \
-            -o APT::FTPArchive::Release::Architectures=all \
+             -o APT::FTPArchive::Release::Architectures="amd64 arm64 all" \
             -o APT::FTPArchive::Release::Components=main \
             release dists/stable > dists/stable/Release
           touch .nojekyll
