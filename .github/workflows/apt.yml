@@ -69,7 +69,7 @@ jobs:
             echo 'sudo apt update &amp;&amp; sudo apt install srtdebug</pre>'
             echo '<p>After that, <code>sudo apt update &amp;&amp; sudo apt upgrade</code> keeps every package here current.</p><h2>Available packages</h2><ul>'
             awk 'BEGIN{RS="";FS="\n"} {p="";v="";d=""; for(i=1;i<=NF;i++){ if($i~/^Package: /)p=substr($i,10); if($i~/^Version: /)v=substr($i,10); if($i~/^Description: /)d=substr($i,14)}; print "<li><b>" p "</b> " v " - " d "</li>"}' site/dists/stable/main/binary-all/Packages
-            echo '</ul></body>'
+            echo '</ul><p><a href="https://github.com/gypsynature">Back to gypsynature on GitHub</a></p></body>'
           } > site/index.html
           
       - uses: actions/upload-pages-artifact@v3
