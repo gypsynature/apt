@@ -63,7 +63,11 @@ jobs:
       - name: Write the package list page
         run: |
           {
-            echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>apt packages</title><body style="font-family:system-ui;max-width:640px;margin:40px auto;padding:0 16px"><h1>Packages</h1><p>Install instructions: <a href="https://github.com/gypsynature">github.com/gypsynature</a></p><ul>'
+            echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>apt packages</title><body style="font-family:system-ui;max-width:680px;margin:40px auto;padding:0 16px;line-height:1.5"><h1>Ubuntu packages</h1><h2>Add this repository (once)</h2><pre style="background:#f4f4f4;padding:12px;overflow-x:auto">'
+            echo 'curl -fsSL https://gypsynature.github.io/apt/apt-archive-keyring.gpg | sudo tee /usr/share/keyrings/apt-archive-keyring.gpg &gt;/dev/null'
+            echo 'echo "deb [signed-by=/usr/share/keyrings/apt-archive-keyring.gpg] https://gypsynature.github.io/apt stable main" | sudo tee /etc/apt/sources.list.d/gypsynature.list'
+            echo 'sudo apt update &amp;&amp; sudo apt install srtdebug</pre>'
+            echo '<p>After that, <code>sudo apt update &amp;&amp; sudo apt upgrade</code> keeps every package here current.</p><h2>Available packages</h2><ul>'
             awk 'BEGIN{RS="";FS="\n"} {p="";v="";d=""; for(i=1;i<=NF;i++){ if($i~/^Package: /)p=substr($i,10); if($i~/^Version: /)v=substr($i,10); if($i~/^Description: /)d=substr($i,14)}; print "<li><b>" p "</b> " v " - " d "</li>"}' site/dists/stable/main/binary-all/Packages
             echo '</ul></body>'
           } > site/index.html
