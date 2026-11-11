@@ -7,3 +7,8 @@ curl -fsSL https://gypsynature.github.io/apt/apt-archive-keyring.gpg | sudo tee 
 echo "deb [signed-by=/usr/share/keyrings/apt-archive-keyring.gpg] https://gypsynature.github.io/apt stable main" | sudo tee /etc/apt/sources.list.d/gypsynature.list
 sudo apt update
 ```
+
+Current apps: **srtdebug**, an SRT stream inspector. 
+`sudo apt install srtdebug`
+
+More are listed at [https://github.com/gypsynature/apt.](https://gypsynature.github.io/apt/)
